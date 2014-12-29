@@ -1,37 +1,37 @@
 (function () {
-
+ 
     //Define our function responsible for extending the bot.
     function extend() {
         //If the bot hasn't been loaded properly, try again in 1 second(s).
         if (!window.bot) {
             return setTimeout(extend, 1 * 1000);
         }
-
+ 
         //Precaution to make sure it is assigned properly.
         var bot = window.bot;
-
+ 
         //Load custom settings set below
         bot.retrieveSettings();
-
+ 
         /*
          Extend the bot here, either by calling another function or here directly.
          Model code for a bot command:
-
+ 
          bot.commands.commandCommand = {
-         command: 'cmd',
-         rank: 'user/bouncer/mod/manager',
-         type: 'startsWith/exact',
-         functionality: function(chat, cmd){
-         if(this.type === 'exact' && chat.message.length !== cmd.length) return void (0);
-         if( !bot.commands.executable(this.rank, chat) ) return void (0);
-         else{
-         //Commands functionality goes here.
+                         command: 'cmd',
+                         rank: 'user/bouncer/mod/manager',
+                         type: 'startsWith/exact',
+                         functionality: function(chat, cmd){
+                                 if(this.type === 'exact' && chat.message.length !== cmd.length) return void (0);
+                                 if( !bot.commands.executable(this.rank, chat) ) return void (0);
+                                 else{
+                                 //Commands functionality goes here.
+                                 }
+                         }
          }
-         }
-         }
-
+ 
          */
-
+ 
         bot.commands.baconCommand = {
             command: 'bacon',  //The command to be called. With the standard command literal this would be: !bacon
             rank: 'user', //Minimum user permission to use the command
@@ -40,18 +40,31 @@
                 if (this.type === 'exact' && chat.message.length !== cmd.length) return void (0);
                 if (!bot.commands.executable(this.rank, chat)) return void (0);
                 else {
-                    API.sendChat("/me wolfpup gave you a piece of bacon!");
+                    API.sendChat(" ");
                 }
             }
         };
-
+               
+        bot.commands.testCommand = {
+                command: 'test',
+                rank: 'user',
+                type: 'exact',
+                functionality: function (chat, cmd) {
+                        if (this.type === 'exact' && chat.message.length !== cmd.length) return void (0);
+                        if (!bot.commands.executable(this.rank, chat)) return void (0);
+                        else {
+                                API.sendChat("Hi @" + chat.un + " , this is a test");
+                        }
+                }
+        };
+ 
         //Load the chat package again to account for any changes
         bot.loadChat();
-
+ 
     }
-
+ 
     //Change the bots default settings and make sure they are loaded on launch
-
+ 
     localStorage.setItem("basicBotsettings", JSON.stringify({
         botName: "wolfpup",
         language: "english",
@@ -103,8 +116,8 @@
             OP: "https://rawgit.com/Yemasthui/basicBot-customization/master/blacklists/ExampleOPlist.json"
         }
     }));
-
+ 
     //Start the bot and extend it when it has loaded.
     $.getScript('https://rawgit.com/Yemasthui/basicBot/master/basicBot.js', extend);
-
+ 
 }).call(this);
